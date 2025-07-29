@@ -1,0 +1,19 @@
+from telegram.ext import Updater, MessageHandler, Filters
+
+def responder(update, context):
+    texto = update.message.text
+    chat_id = update.effective_chat.id
+    context.bot.send_message(chat_id=chat_id, text=f"Você disse: {texto}")
+
+if __name__ == '__main__':
+    TOKEN = 'SEU_TOKEN_AQUI'  # <-- coloque o token do seu bot
+
+    updater = Updater(token=TOKEN, use_context=True)
+    dispatcher = updater.dispatcher
+
+    mensagem_handler = MessageHandler(Filters.text & ~Filters.command, responder)
+    dispatcher.add_handler(mensagem_handler)
+
+    updater.start_polling()
+    print("Bot rodando...")
+    updater.idle()
